@@ -1,7 +1,8 @@
 import numpy as np
 from create_dataset import create_dataset_artificial
 import matplotlib.pyplot as plt
-from fastPFP import fastPFP_faster, fastPFP
+from fastPFP import fastPFP_faster, fastPFP, loss
+
 
 if __name__ == '__main__':
 
@@ -19,8 +20,8 @@ if __name__ == '__main__':
     print("fastPFP:")
     X = fastPFP_faster(A, B, alpha=0.5, threshold1=1.0e-4, threshold2=1.0e-4)
     P = (X == X.max(1)[:,None])
-    loss_X = np.linalg.norm(A - X.dot(B.dot(X.T)))
-    loss_P = np.linalg.norm(A - P.dot(B.dot(P.T)))
+    loss_X = loss(A, B, X)
+    loss_P = loss(A, B, P)
     print("Loss(X) = %s" % loss_X)
     print("Loss(P) = %s" % loss_P)
 
