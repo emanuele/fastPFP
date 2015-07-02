@@ -95,17 +95,18 @@ def fastPFP_faster(A, B, alpha=0.5, threshold1=1.0e-6, threshold2=1.0e-6, X=None
 
 def greedy_assignment(X):
     """A simple greedy algorithm for the assignment problem as
-    proposed in the paper of fastPFP. If creates a proper partial
+    proposed in the paper of fastPFP. It creates a proper partial
     permutation matrix (P) from the result (X) of the optimization
     algorithm fastPFP.
     """
     XX = X.copy()
+    min = XX.min() - 1.0
     P = np.zeros(X.shape)
-    while (XX > 0.0).any():
+    while (XX > min).any():
         row, col = np.unravel_index(XX.argmax(), XX.shape)
         P[row, col] = 1.0
-        XX[row, :] = -1.0
-        XX[:, col] = -1.0
+        XX[row, :] = min
+        XX[:, col] = min
 
     return P
 
